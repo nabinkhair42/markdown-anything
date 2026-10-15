@@ -37,16 +37,17 @@ python -m venv .venv
 
 Text based documents convert with [MarkItDown](https://github.com/microsoft/markitdown). A PDF with almost no text layer is treated as a scan and re-read with a local [MinerU](https://github.com/opendatalab/MinerU) OCR engine, marked with an OCR badge in the output header.
 
-OCR is optional. Without it, scanned PDFs convert through the fast path only. To enable it:
+On its first run `python run.py` installs MinerU automatically into `~/mineru-env`, downloads the OCR models (several GB), enables local mode, and starts the server. Later runs reuse that install. If the install or download fails, the app still starts and scanned PDFs convert through the fast path only.
+
+To install OCR by hand instead, or into a different location:
 
 ```bash
 pip install mineru
 mineru-kit models download --tier standard
 mineru config set parse_server.local.mode managed
-mineru server restart
 ```
 
-The app looks for the `mineru` binary at `~/mineru-env/bin/mineru` unless `MINERU_BIN` points elsewhere.
+`run.py` finds the binary at `MINERU_BIN`, `~/mineru-env/bin/mineru`, or on `PATH`. If the server is still warming up or unavailable, the app converts with the fast path and notes it in the server log.
 
 ## Configuration
 
