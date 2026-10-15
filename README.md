@@ -1,6 +1,6 @@
 # Markdown Anything
 
-Convert PDF, Office files, images, audio and scanned documents to clean Markdown in your browser. Free, local, with OCR.
+Convert PDF, Office files, images, audio and scanned documents to Markdown. Runs locally in a browser UI, with OCR for scanned pages.
 
 ![Markdown Anything](static/og-image.png)
 
@@ -10,8 +10,8 @@ Convert PDF, Office files, images, audio and scanned documents to clean Markdown
 - Web page and YouTube link conversion from a URL bar
 - Scanned PDFs are detected and read with local OCR automatically
 - Markdown and rendered preview tabs, copy to clipboard, single and batch `.md` download
-- Queue with per file status, sizes and progress
-- Runs on your machine only. Uploaded files are converted and deleted right away.
+- Queue with per file status and sizes
+- Runs locally; uploaded files are deleted right after conversion
 
 ## Quickstart
 
@@ -21,7 +21,7 @@ You need Python 3.10 or newer. One command works on Linux, macOS and Windows.
 python run.py
 ```
 
-The script creates `.venv` if needed, installs missing packages, picks port 7860 (or the next free one), and serves the app. Open the printed address, usually http://127.0.0.1:7860.
+The script creates `.venv` if needed, installs missing packages, picks port 7860 (or the next free one), and serves the app. Open the printed address, usually http://127.0.0.1:7860. The first run also sets up the OCR engine, a several-GB download (see [Scanned PDFs and OCR](#scanned-pdfs-and-ocr)).
 
 On Windows use `python` or the `py` launcher instead of `python3` if needed.
 
@@ -66,7 +66,7 @@ Uploads are limited to 100 MB per file.
 | `POST /api/convert` | Convert one uploaded file, `file` field  |
 | `POST /api/convert-url` | Convert a web page or YouTube URL, `{"url": ...}` |
 
-Both POST endpoints return `{"name": ..., "markdown": ..., "engine": ...}` where `engine` is `markitdown` or `mineru-ocr`.
+`/api/convert` returns `{"name": ..., "markdown": ..., "engine": ...}` where `engine` is `markitdown` or `mineru-ocr`. `/api/convert-url` returns `{"name": ..., "markdown": ...}`.
 
 ## Project layout
 
